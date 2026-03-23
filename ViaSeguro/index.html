@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ViaSegura — Mapeamento Colaborativo de Danos Asfálticos</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="toast" id="toast"><span class="toast-icon" id="toast-icon">✅</span><span id="toast-msg"></span></div>
+
+<nav id="navbar">
+  <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">VIA<span>SEGURA</span></div>
+  <ul>
+    <li><a href="#problema" class="nav-link">Problema</a></li>
+    <li><a href="#solucao" class="nav-link">Solução</a></li>
+    <li><a href="#canvas" class="nav-link">Canvas</a></li>
+    <li><a href="#simulador" class="nav-link">Demo</a></li>
+    <li><a href="#reporte" class="nav-link">Reportar</a></li>
+  </ul>
+  <div class="nav-progress" id="nav-progress"></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero-section">
+  <div class="hero-grid"></div>
+  <div class="hero-glow" id="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">MVP · UNIVALI · ADS</div>
+    <h1>Via<span class="highlight">Segura</span><span class="line2">Ruas melhores,<br>juntos.</span></h1>
+    <p class="hero-sub">Plataforma de mapeamento colaborativo de danos asfálticos para a comunidade de <strong style="color:var(--text)">Governador Celso Ramos</strong>. Reporte buracos com GPS e foto em menos de 30 segundos.</p>
+    <div class="hero-meta"><span>Eduardo Sabino Marques</span><span>Fabricio Medeiros</span><span>Curso de ADS</span></div>
+    <div class="hero-stat-row">
+      <div class="stat-pill"><span class="num">&lt;5m</span><span class="label">Margem de erro GPS</span></div>
+      <div class="stat-pill"><span class="num">30s</span><span class="label">Tempo de reporte</span></div>
+      <div class="stat-pill"><span class="num">3</span><span class="label">Telas no fluxo</span></div>
+    </div>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="document.getElementById('simulador').scrollIntoView({behavior:'smooth'})">Ver Demo Interativo</button>
+      <button class="btn-ghost" onclick="document.getElementById('reporte').scrollIntoView({behavior:'smooth'})">Reportar Buraco</button>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROBLEMA -->
+<section class="problem" id="problema">
+  <div class="problem-grid">
+    <div class="reveal-left">
+      <div class="section-label">01 · Problema</div>
+      <h2>Vias danificadas,<br>cidadãos em risco</h2>
+      <p class="section-desc">Clique em cada problema para expandir os detalhes.</p>
+      <div class="pain-list">
+        <div class="pain-item" onclick="togglePain(this)">
+          <span class="pain-icon">🚗</span>
+          <div><h4>Prejuízo aos veículos</h4><p>Buracos causam danos a pneus, suspensão e carroceria, gerando custos diretos e diminuindo a vida útil dos veículos.</p></div>
+        </div>
+        <div class="pain-item" onclick="togglePain(this)">
+          <span class="pain-icon">⚠️</span>
+          <div><h4>Acidentes graves</h4><p>Falhas na pavimentação aumentam significativamente o risco de acidentes para condutores e pedestres, especialmente à noite ou sob chuva.</p></div>
+        </div>
+        <div class="pain-item" onclick="togglePain(this)">
+          <span class="pain-icon">🐌</span>
+          <div><h4>Processo burocrático</h4><p>Sem um canal direto, os reportes demoram para chegar à secretaria de obras, atrasando intervenções urgentes por semanas ou meses.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="problem-visual reveal-right">
+      <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <rect width="400" height="320" fill="#111611"/>
+        <rect x="80" y="0" width="240" height="320" fill="#1a1f1a" rx="4"/>
+        <rect x="195" y="20" width="10" height="40" fill="#2a3a2a" rx="2"/>
+        <rect x="195" y="80" width="10" height="40" fill="#2a3a2a" rx="2"/>
+        <rect x="195" y="140" width="10" height="40" fill="#2a3a2a" rx="2"/>
+        <rect x="195" y="200" width="10" height="40" fill="#2a3a2a" rx="2"/>
+        <rect x="195" y="260" width="10" height="40" fill="#2a3a2a" rx="2"/>
+        <g style="cursor:pointer" onclick="fillAddr('Rua das Acácias, 142')">
+          <ellipse cx="130" cy="120" rx="22" ry="14" fill="#0a0e0b" stroke="#ff5c5c" stroke-width="1.5"/>
+          <ellipse cx="130" cy="120" rx="15" ry="9" fill="#060808"/>
+          <circle cx="130" cy="100" r="12" fill="rgba(76,255,122,.15)" stroke="#4cff7a" stroke-width="1.5"/>
+          <text x="130" y="105" text-anchor="middle" fill="#4cff7a" font-size="10">📍</text>
+          <circle cx="130" cy="100" r="20" fill="none" stroke="#4cff7a" stroke-width="1" opacity=".4"><animate attributeName="r" values="12;22;12" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".4;0;.4" dur="2s" repeatCount="indefinite"/></circle>
+        </g>
+        <g style="cursor:pointer" onclick="fillAddr('Av. Beira Mar, 87')">
+          <ellipse cx="270" cy="200" rx="18" ry="12" fill="#0a0e0b" stroke="#ff5c5c" stroke-width="1.5"/>
+          <ellipse cx="270" cy="200" rx="12" ry="8" fill="#060808"/>
+          <circle cx="270" cy="180" r="12" fill="rgba(76,255,122,.15)" stroke="#4cff7a" stroke-width="1.5"/>
+          <text x="270" y="185" text-anchor="middle" fill="#4cff7a" font-size="10">📍</text>
+          <circle cx="270" cy="180" r="20" fill="none" stroke="#4cff7a" stroke-width="1" opacity=".4"><animate attributeName="r" values="12;22;12" dur="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values=".4;0;.4" dur="2.5s" repeatCount="indefinite"/></circle>
+        </g>
+        <g style="cursor:pointer" onclick="fillAddr('Rua do Porto, 33')">
+          <ellipse cx="155" cy="255" rx="25" ry="16" fill="#0a0e0b" stroke="#ff5c5c" stroke-width="1.5"/>
+          <ellipse cx="155" cy="255" rx="17" ry="10" fill="#060808"/>
+          <circle cx="155" cy="235" r="12" fill="rgba(76,255,122,.15)" stroke="#4cff7a" stroke-width="1.5"/>
+          <text x="155" y="240" text-anchor="middle" fill="#4cff7a" font-size="10">📍</text>
+          <circle cx="155" cy="235" r="20" fill="none" stroke="#4cff7a" stroke-width="1" opacity=".4"><animate attributeName="r" values="12;22;12" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values=".4;0;.4" dur="3s" repeatCount="indefinite"/></circle>
+        </g>
+        <text x="15" y="112" fill="#4cff7a" font-size="8" font-family="monospace">👆 clique</text>
+        <text x="15" y="124" fill="#4cff7a" font-size="8" font-family="monospace">nos pins!</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUÇÃO -->
+<section id="solucao">
+  <div class="section-label reveal">02 · Solução</div>
+  <h2 class="reveal">Como o ViaSegura funciona</h2>
+  <p class="section-desc reveal">Um fluxo de apenas 3 etapas. Clique nos cards para mais info.</p>
+  <div class="flow-grid">
+    <div class="flow-card reveal" style="transition-delay:.1s" onclick="showToast('📷','Etapa 1: O cidadão fotografa o dano diretamente pelo app!')">
+      <div class="flow-num">01</div><span class="flow-icon">📷</span>
+      <h3>Capture o dano</h3><p>O cidadão abre o app, tira uma foto do buraco diretamente pela câmera do celular.</p>
+    </div>
+    <div class="flow-card reveal" style="transition-delay:.2s" onclick="showToast('📍','Etapa 2: GPS com margem inferior a 5m — validado em campo!')">
+      <div class="flow-num">02</div><span class="flow-icon">📍</span>
+      <h3>GPS automático</h3><p>A localização é capturada via API de geolocalização com margem de erro inferior a 5 metros.</p>
+    </div>
+    <div class="flow-card reveal" style="transition-delay:.3s" onclick="showToast('🗺️','Etapa 3: Mapa público permite que a prefeitura priorize obras!')">
+      <div class="flow-num">03</div><span class="flow-icon">🗺️</span>
+      <h3>Mapa colaborativo</h3><p>O reporte aparece no mapa público acessível pela secretaria de obras para priorizar intervenções.</p>
+    </div>
+  </div>
+  <div class="proof-row" style="margin-top:3rem">
+    <div class="proof-card reveal" style="transition-delay:.1s"><div class="big" id="cnt1">&lt;5m</div><p>Precisão do GPS nos testes de campo</p></div>
+    <div class="proof-card reveal" style="transition-delay:.2s"><div class="big" id="cnt2">0</div><p>Moradores testaram com sucesso em ≤30s</p></div>
+    <div class="proof-card reveal" style="transition-delay:.3s"><div class="big" id="cnt3">0%</div><p>Tecnicamente viável com APIs web atuais</p></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CANVAS TABS -->
+<section id="canvas">
+  <div class="section-label reveal">04 · Canvas</div>
+  <h2 class="reveal">Proposta de valor</h2>
+  <p class="section-desc reveal">Explore os três canvas do projeto clicando nas abas.</p>
+  <div class="canvas-tabs reveal">
+    <button class="canvas-tab active" onclick="switchCanvas('proposta',this)">Proposta de Valor</button>
+    <button class="canvas-tab" onclick="switchCanvas('negocio',this)">Business Model</button>
+    <button class="canvas-tab" onclick="switchCanvas('mvpcanvas',this)">Canvas MVP</button>
+  </div>
+  <div class="canvas-panel active" id="canvas-proposta">
+    <div class="canvas-card"><h3>Mapa de Valor <span class="tag">O que oferecemos</span></h3><div class="canvas-items"><div class="canvas-item"><div class="dot"></div><p><strong>Produto:</strong> App de reporte geolocalizado com foto + GPS para danos asfálticos.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Alívio de dor:</strong> Elimina a burocracia — qualquer cidadão reporta em 30 segundos.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Ganho gerado:</strong> Mapa de calor que prioriza manutenções e comprova participação cidadã.</p></div></div></div>
+    <div class="canvas-card"><h3>Perfil do Cliente <span class="tag">Para quem</span></h3><div class="canvas-items"><div class="canvas-item"><div class="dot"></div><p><strong>Tarefa:</strong> Reportar danos às vias de forma rápida para que sejam corrigidos.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Dores:</strong> Canal de denúncia burocrático, sem retorno claro da prefeitura.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Ganhos esperados:</strong> Vias conservadas, menos acidentes, cidadania ativa.</p></div></div></div>
+  </div>
+  <div class="canvas-panel" id="canvas-negocio">
+    <div class="canvas-card"><h3>Estrutura <span class="tag">9 blocos</span></h3><div class="canvas-items"><div class="canvas-item"><div class="dot"></div><p><strong>Proposta de Valor:</strong> Reporte ágil de danos asfálticos via app com GPS e foto.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Segmentos:</strong> Moradores de GCR e municípios de pequeno/médio porte; secretarias.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Canais:</strong> App mobile (PWA), redes sociais locais e associações de bairro.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Receita:</strong> Licenciamento SaaS para prefeituras com painel analítico completo.</p></div></div></div>
+    <div class="canvas-card"><h3>Operação <span class="tag">Recursos</span></h3><div class="canvas-items"><div class="canvas-item"><div class="dot"></div><p><strong>Recursos principais:</strong> Infraestrutura cloud, API de geolocalização, equipe de dev.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Atividades principais:</strong> Manutenção do app, análise de dados, relacionamento com prefeituras.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Parcerias:</strong> Prefeitura de GCR, UNIVALI, provedores de nuvem.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Custos:</strong> Hospedagem cloud, domínio, marketing digital, desenvolvimento.</p></div></div></div>
+  </div>
+  <div class="canvas-panel" id="canvas-mvpcanvas">
+    <div class="canvas-card"><h3>Validação <span class="tag">MVP</span></h3><div class="canvas-items"><div class="canvas-item"><div class="dot"></div><p><strong>Problema:</strong> Buracos não são reportados por falta de canal simples e direto.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Solução mínima:</strong> Tela de reporte com câmera + GPS + envio ao banco de dados.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Métrica:</strong> Reporte em &lt;30s por 80% dos usuários no teste de usabilidade.</p></div></div></div>
+    <div class="canvas-card"><h3>Estratégia <span class="tag">Go-to-market</span></h3><div class="canvas-items"><div class="canvas-item"><div class="dot"></div><p><strong>Clientes:</strong> Moradores de GCR com smartphone; secretaria de obras municipal.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Canal:</strong> Página de captura, WhatsApp de bairro, parceria com associações.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Vantagem:</strong> Foco 100% viário + localidade + simplicidade extrema de uso.</p></div><div class="canvas-item"><div class="dot"></div><p><strong>Custos MVP:</strong> Hospedagem básica + domínio + horas da equipe.</p></div></div></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONCORRENTES -->
+<section id="concorrentes" style="background:var(--surface)">
+  <div class="section-label reveal">05 · Mercado</div>
+  <h2 class="reveal">Análise competitiva</h2>
+  <p class="section-desc reveal">Clique nas linhas para mais detalhes sobre cada concorrente.</p>
+  <table class="competitor-table reveal">
+    <thead><tr><th>Concorrente</th><th>O que fazem</th><th>Diferenciais</th><th>Pontos Fortes</th><th>Pontos Fracos</th></tr></thead>
+    <tbody>
+      <tr onclick="showToast('📊','Waze: ótimo para navegação, mas não comunica danos à prefeitura para resolução.')">
+        <td>Waze</td><td>Navegação GPS e alertas de trânsito</td><td>Alertas de buracos em tempo real</td><td><span class="badge-strong">▲</span> Grande base de usuários</td><td><span class="badge-weak">▼</span> Foco no desvio, não na solução</td>
+      </tr>
+      <tr onclick="showToast('🏙️','Colab.re: bom alcance nacional, mas processo burocrático afasta o cidadão comum.')">
+        <td>Colab.re</td><td>Plataforma de zeladoria urbana</td><td>Interface com algumas prefeituras</td><td><span class="badge-strong">▲</span> Parcerias oficiais em cidades</td><td><span class="badge-weak">▼</span> Fluxo burocrático e lento</td>
+      </tr>
+      <tr class="viasegura-row" onclick="showToast('🌟','ViaSegura: foco viário 100% + simplicidade de 30 segundos é nosso diferencial!')">
+        <td>ViaSegura ★</td><td>Mapeamento de danos asfálticos</td><td>Foco viário + simplicidade máxima</td><td><span class="badge-strong">▲</span> GPS preciso + comunidade local</td><td><span class="badge-weak">▼</span> Estágio inicial (MVP)</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SIMULADOR -->
+<section class="simulator-section" id="simulador">
+  <div class="simulator-wrap">
+    <div class="reveal-left">
+      <div class="section-label">06 · Demo Interativo</div>
+      <h2>Experimente o app</h2>
+      <p class="section-desc">Simule o fluxo completo do ViaSegura clicando nos passos ou interagindo diretamente com o celular.</p>
+      <div class="sim-steps">
+        <div class="sim-step active" onclick="goToScreen(0)"><div class="sim-step-num">1</div><div><h4>Tela inicial — Mapa</h4><p>Visualize buracos reportados na vizinhança. Clique em "+ Reportar".</p></div></div>
+        <div class="sim-step" onclick="goToScreen(1)"><div class="sim-step-num">2</div><div><h4>Câmera + GPS</h4><p>Enquadre o dano e pressione o botão para capturar com localização automática.</p></div></div>
+        <div class="sim-step" onclick="goToScreen(2)"><div class="sim-step-num">3</div><div><h4>Confirmação</h4><p>Revise os dados capturados e envie o reporte para o banco de dados.</p></div></div>
+        <div class="sim-step" onclick="goToScreen(3)"><div class="sim-step-num">4</div><div><h4>Reporte enviado!</h4><p>A prefeitura recebe a notificação com foto, GPS e horário.</p></div></div>
+      </div>
+    </div>
+    <div class="reveal-right" style="display:flex;justify-content:center">
+      <div class="sim-phone">
+        <div class="sim-notch"><div class="sim-notch-bar"></div></div>
+        <div class="sim-screen">
+          <!-- Screen 0 -->
+          <div class="sim-screen-inner" id="sc0">
+            <div class="map-screen">
+              <div class="map-view">
+                <div class="map-road-h"></div><div class="map-road-v"></div>
+                <div class="map-pin danger" style="top:28%;left:20%">❗<div class="map-tooltip">Rua das Acácias, 142</div></div>
+                <div class="map-pin danger" style="top:60%;left:66%">❗<div class="map-tooltip">Av. Beira Mar, 87</div></div>
+                <div class="map-pin ok" style="top:74%;left:38%">✓<div class="map-tooltip">Resolvido ✓</div></div>
+              </div>
+              <div class="map-bar"><span class="map-bar-text">📍 GCR · 3 reportes</span><button class="map-btn" onclick="goToScreen(1)">+ Reportar</button></div>
+            </div>
+          </div>
+          <!-- Screen 1 -->
+          <div class="sim-screen-inner hidden" id="sc1">
+            <div class="cam-screen">
+              <div class="cam-view">
+                <div class="cam-pothole"></div>
+                <div class="cam-crosshair-h"></div><div class="cam-crosshair-v"></div>
+                <div class="cam-bracket tl"></div><div class="cam-bracket tr"></div>
+                <div class="cam-bracket bl"></div><div class="cam-bracket br"></div>
+              </div>
+              <div class="cam-gps" id="cam-gps">📍 GPS: -27.3401, -48.5642 · Precisão: 4m</div>
+              <div class="cam-controls"><button class="shutter" onclick="goToScreen(2)"></button></div>
+            </div>
+          </div>
+          <!-- Screen 2 -->
+          <div class="sim-screen-inner hidden" id="sc2">
+            <div class="confirm-screen">
+              <div class="confirm-icon">📋</div>
+              <div class="confirm-title">Confirmar Reporte</div>
+              <div class="confirm-row"><span>📍 Localização</span><span>-27.3401, -48.5642</span></div>
+              <div class="confirm-row"><span>📷 Foto</span><span>foto_buraco.jpg</span></div>
+              <div class="confirm-row"><span>⚠️ Gravidade</span><span>Alta</span></div>
+              <div class="confirm-row"><span>🕐 Horário</span><span id="conf-time">--:--</span></div>
+              <div class="confirm-row"><span>📍 Endereço</span><span>Rua Beira Mar, GCR</span></div>
+              <button class="confirm-send" onclick="goToScreen(3)">Enviar Reporte ✓</button>
+            </div>
+          </div>
+          <!-- Screen 3 -->
+          <div class="sim-screen-inner hidden" id="sc3">
+            <div class="success-screen">
+              <div class="success-anim">🎉</div>
+              <div style="font-size:1rem;font-weight:800;color:var(--accent)">Reporte Enviado!</div>
+              <p>Seu reporte foi registrado. A <strong>Secretaria de Obras</strong> foi notificada.</p>
+              <p style="font-size:.7rem;font-family:'Space Mono',monospace;color:var(--muted)">ID: #VS-<span id="report-id">0000</span></p>
+              <button class="success-back" onclick="goToScreen(0)">← Voltar ao Mapa</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE MAP -->
+<section id="mapa">
+  <div class="section-label reveal">07 · Mapa de Danos</div>
+  <h2 class="reveal">Governador Celso Ramos</h2>
+  <p class="section-desc reveal">Clique nos pontos para ver detalhes. Novos reportes aparecem aqui automaticamente.</p>
+  <div id="live-map" class="reveal">
+    <div class="live-map-grid"></div>
+    <svg class="live-map-svg" viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" id="live-svg">
+      <rect width="900" height="300" fill="#0f160f"/>
+      <line x1="0" y1="150" x2="900" y2="150" stroke="#1a231a" stroke-width="8"/>
+      <line x1="200" y1="0" x2="200" y2="300" stroke="#1a231a" stroke-width="6"/>
+      <line x1="500" y1="0" x2="500" y2="300" stroke="#1a231a" stroke-width="6"/>
+      <line x1="750" y1="0" x2="750" y2="300" stroke="#1a231a" stroke-width="4"/>
+      <line x1="0" y1="75" x2="900" y2="75" stroke="#1a231a" stroke-width="4"/>
+      <line x1="0" y1="225" x2="900" y2="225" stroke="#1a231a" stroke-width="4"/>
+      <text x="90" y="25" fill="#2a3a2a" font-size="11" font-family="Space Mono,monospace" text-anchor="middle">AREIAS</text>
+      <text x="340" y="25" fill="#2a3a2a" font-size="11" font-family="Space Mono,monospace" text-anchor="middle">GANCHOS</text>
+      <text x="620" y="25" fill="#2a3a2a" font-size="11" font-family="Space Mono,monospace" text-anchor="middle">PALMAS</text>
+      <g style="cursor:pointer" onclick="pinInfo('Rua das Acácias, 142','Alta','Pendente')"><circle cx="90" cy="110" r="14" fill="rgba(255,92,92,.15)" stroke="#ff5c5c" stroke-width="1.5"/><text x="90" y="115" text-anchor="middle" font-size="12" fill="#ff5c5c">●</text><circle cx="90" cy="110" r="22" fill="none" stroke="#ff5c5c" stroke-width=".8" opacity=".3"><animate attributeName="r" values="14;26;14" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".3;0;.3" dur="2s" repeatCount="indefinite"/></circle></g>
+      <g style="cursor:pointer" onclick="pinInfo('Av. Beira Mar, 87','Média','Em análise')"><circle cx="330" cy="185" r="12" fill="rgba(255,184,76,.15)" stroke="#ffb84c" stroke-width="1.5"/><text x="330" y="190" text-anchor="middle" font-size="11" fill="#ffb84c">●</text><circle cx="330" cy="185" r="20" fill="none" stroke="#ffb84c" stroke-width=".8" opacity=".3"><animate attributeName="r" values="12;22;12" dur="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values=".3;0;.3" dur="2.5s" repeatCount="indefinite"/></circle></g>
+      <g style="cursor:pointer" onclick="pinInfo('Rua do Porto, 33','Alta','Pendente')"><circle cx="150" cy="250" r="16" fill="rgba(255,92,92,.15)" stroke="#ff5c5c" stroke-width="2"/><text x="150" y="256" text-anchor="middle" font-size="13" fill="#ff5c5c">●</text><circle cx="150" cy="250" r="24" fill="none" stroke="#ff5c5c" stroke-width=".8" opacity=".3"><animate attributeName="r" values="16;28;16" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".3;0;.3" dur="1.8s" repeatCount="indefinite"/></circle></g>
+      <g style="cursor:pointer" onclick="pinInfo('Rua das Flores, 210','Baixa','Resolvido')"><circle cx="460" cy="95" r="10" fill="rgba(76,255,122,.15)" stroke="#4cff7a" stroke-width="1.5"/><text x="460" y="100" text-anchor="middle" font-size="10" fill="#4cff7a">✓</text></g>
+      <g style="cursor:pointer" onclick="pinInfo('Rua Nova, 55','Média','Em análise')"><circle cx="620" cy="195" r="12" fill="rgba(255,184,76,.15)" stroke="#ffb84c" stroke-width="1.5"/><text x="620" y="200" text-anchor="middle" font-size="11" fill="#ffb84c">●</text><circle cx="620" cy="195" r="20" fill="none" stroke="#ffb84c" stroke-width=".8" opacity=".3"><animate attributeName="r" values="12;22;12" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values=".3;0;.3" dur="3s" repeatCount="indefinite"/></circle></g>
+      <g style="cursor:pointer" onclick="pinInfo('Av. Central, 400','Alta','Pendente')"><circle cx="780" cy="135" r="14" fill="rgba(255,92,92,.15)" stroke="#ff5c5c" stroke-width="1.5"/><text x="780" y="140" text-anchor="middle" font-size="12" fill="#ff5c5c">●</text><circle cx="780" cy="135" r="22" fill="none" stroke="#ff5c5c" stroke-width=".8" opacity=".3"><animate attributeName="r" values="14;26;14" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".3;0;.3" dur="2.2s" repeatCount="indefinite"/></circle></g>
+    </svg>
+  </div>
+  <div class="map-legend reveal">
+    <div class="legend-item"><div class="legend-dot" style="background:#ff5c5c"></div>Alta gravidade — Pendente</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ffb84c"></div>Média — Em análise</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#4cff7a"></div>Resolvido ✓</div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FORMULÁRIO -->
+<section id="reporte" style="background:var(--surface)">
+  <div class="report-inner reveal">
+    <div class="section-label">08 · Reportar</div>
+    <h2>Reporte um dano</h2>
+    <p class="section-desc">Simule um reporte completo. Após enviar, um novo pin aparece no mapa acima!</p>
+    <div id="form-wrap">
+      <div class="report-form">
+        <div class="form-row">
+          <div class="form-group"><label>Endereço / Referência</label><input type="text" id="f-address" placeholder="Ex: Rua das Acácias, 142"/></div>
+          <div class="form-group"><label>Bairro</label><select id="f-bairro"><option value="">Selecione...</option><option>PALMAS</option><option>AREIAS</option><option>GANCHOS</option><option>CANTO DOS GANCHOS</option><option>ARMAÇÃO</option></select></div>
+        </div>
+        <div class="form-group"><label>Gravidade do dano</label><div class="severity-picker"><button class="sev-btn" onclick="setSev(this,'low')">🟢 Baixa</button><button class="sev-btn" onclick="setSev(this,'med')">🟡 Média</button><button class="sev-btn" onclick="setSev(this,'high')">🔴 Alta</button></div></div>
+        <div class="form-group"><label>Descrição do problema</label><textarea id="f-desc" placeholder="Descreva o dano: tamanho aproximado, risco para veículos..."></textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Seu nome (opcional)</label><input type="text" id="f-name" placeholder="Cidadão anônimo"/></div>
+          <div class="form-group"><label>Coordenadas GPS</label><input type="text" id="f-gps" placeholder="Clique para obter GPS" readonly style="cursor:pointer" onclick="getGPS()"/></div>
+        </div>
+        <button class="form-submit" onclick="submitReport()">📍 Enviar Reporte ao ViaSegura</button>
+      </div>
+    </div>
+    <div class="form-success" id="form-success">
+      <div class="big-check">✅</div>
+      <h3>Reporte registrado!</h3>
+      <p>Obrigado pela sua contribuição! O protocolo <strong id="form-protocol"></strong> foi enviado à Secretaria de Obras de Governador Celso Ramos. <br><br>Veja o novo pin no mapa acima! 👆</p>
+      <button class="btn-ghost" onclick="resetForm()" style="margin-top:1.5rem">Reportar outro dano</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="#problema">Problema</a><a href="#solucao">Solução</a><a href="#equipe">Equipe</a><a href="#canvas">Canvas</a><a href="#simulador">Demo</a><a href="#reporte">Reportar</a>
+  </div>
+  <p style="font-size:1.2rem;font-weight:800;color:var(--accent);font-family:'Syne',sans-serif;letter-spacing:-.02em;margin-bottom:.75rem">ViaSegura</p>
+  <p>Trabalho acadêmico · <strong>UNIVALI</strong> · Curso de Análise e Desenvolvimento de Sistemas</p>
+  <p style="margin-top:.5rem">Eduardo Sabino Marques &amp; Fabricio Medeiros · Governador Celso Ramos, SC</p>
+  <p style="margin-top:1rem;font-size:.7rem;opacity:.5">Mapeamento colaborativo para uma gestão urbana mais eficiente e baseada em dados reais.</p>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
